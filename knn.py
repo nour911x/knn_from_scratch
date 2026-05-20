@@ -19,3 +19,9 @@ class KNN:
             k_labels = [self.y_train[i] for i in k_idx]
             predictions.append(max(set(k_labels), key=k_labels.count))
         return predictions
+
+    def evaluate(self, X_test, y_test):
+        predictions = self.predict(X_test)
+        y_test = list(y_test)
+        correct = sum(1 for i in range(len(predictions)) if predictions[i] == y_test[i])
+        return correct / len(predictions)
