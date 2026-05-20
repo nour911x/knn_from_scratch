@@ -25,3 +25,14 @@ class KNN:
         y_test = list(y_test)
         correct = sum(1 for i in range(len(predictions)) if predictions[i] == y_test[i])
         return correct / len(predictions)
+
+    def grid_search(self, X_train, y_train, X_test, y_test, k_values):
+        scores = {}
+        for k in k_values:
+            self.k = k
+            self.fit(X_train, y_train)
+            scores[k] = self.evaluate(X_test, y_test)
+        best_k = max(scores, key=scores.get)
+        self.k = best_k
+        self.fit(X_train, y_train)
+        return best_k, scores[best_k], scores
