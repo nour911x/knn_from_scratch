@@ -6,4 +6,16 @@ class KNN:
 
     def fit(self, X, y):
         self.X_train = X
-        self.y_train = y
+        self.y_train = list(y)
+
+    def _euclidean_distance(self, p1, p2):
+        return sum((a - b) ** 2 for a, b in zip(p1, p2)) ** 0.5
+
+    def predict(self, X):
+        predictions = []
+        for point in X:
+            distances = [self._euclidean_distance(point, x) for x in self.X_train]
+            k_idx = sorted(range(len(distances)), key=lambda i: distances[i])[:self.k]
+            k_labels = [self.y_train[i] for i in k_idx]
+            predictions.append(max(set(k_labels), key=k_labels.count))
+        return predictions
